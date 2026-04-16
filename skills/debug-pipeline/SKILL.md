@@ -1,0 +1,103 @@
+---
+name: debug-pipeline
+description: |-
+  Systematically debug CI/CD pipeline failures -- build errors, test failures, deployment issues, runner problems, trigger mismatches, permission errors, secret availability, flaky tests, and silent failures. Uses systematic debugging (reproduce, isolate, hypothesize, test, confirm, fix, verify) -- never guesses. Triggers on "CI is broken", "pipeline failing", "workflow not running", "debug my pipeline", "build failed", "deploy failed", "runner not picking up jobs", "workflow trigger not working", "secrets not available", "CI flaky", "pipeline keeps failing", "why did CI fail", "fix my workflow". Produces root cause analysis with concrete fix.
+argument-hint: '[optional: error message, failing job name, or workflow file]'
+allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
+---
+
+# Debug Pipeline
+
+Dispatches the cicd-expert agent with a debug-workflow briefing.
+
+## Step 1: Gather failure context
+
+Before dispatching, collect:
+1. Error message or symptom (from user or from reading logs)
+2. Which workflow file and job
+3. When it started failing (after which change?)
+4. Whether it is intermittent (flaky) or consistent
+5. Platform and runner type
+
+Read the failing workflow file and any recent git changes to CI config.
+
+## Step 2: Dispatch cicd-expert
+
+```
+Agent({
+  description: "Debug CI/CD failure",
+  subagent_type: "cicd-expert:cicd-expert",
+  model: "opus",
+  prompt: "<see briefing below>"
+})
+```
+
+### Briefing
+
+```
+ORIGINAL USER REQUEST: <verbatim>
+
+WORKFLOW: debug
+
+FAILURE CONTEXT:
+- Error message/symptom: <from user or logs>
+- Workflow file: <path>
+- Failing job: <name if known>
+- Intermittent or consistent: <if known>
+- Recent changes: <git log of CI-relevant changes>
+- Platform: <detected>
+- Runner type: <detected>
+- Working directory: <absolute path>
+
+DELIVERABLES:
+1. Systematic diagnosis:
+   a. Reproduce -- confirm the failure exists and identify exact conditions
+   b. Isolate -- which job, which step, which command fails?
+   c. Check common failure categories:
+      - Trigger mismatch (event type, branch filter, path filter)
+      - Permission error (GITHUB_TOKEN scope, environment protection)
+      - Secret unavailability (fork PR, missing environment, wrong scope level)
+      - Runner issue (label mismatch, capacity, ARC scaling, ephemeral cleanup)
+      - Dependency issue (cache miss, lockfile drift, registry outage)
+      - Configuration syntax (YAML indentation, expression syntax, matrix)
+      - Concurrency conflict (concurrent runs, resource contention)
+      - Network issue (egress, DNS, private network)
+   d. Hypothesize -- form 1-3 ranked hypotheses based on evidence
+   e. Test -- check each hypothesis against the config and logs
+   f. Confirm -- identify root cause with evidence
+
+2. Root cause analysis:
+   - What failed
+   - Why it failed
+   - When it started failing (if determinable)
+   - What change caused it (if determinable)
+
+3. Fix:
+   - Exact configuration change (YAML diff)
+   - Why this fixes it (with confidence grade)
+   - How to verify the fix
+
+4. Prevention:
+   - What would have caught this earlier?
+   - Any workflow scanning or validation to add?
+
+CONSTRAINTS:
+- NEVER guess the root cause -- follow the systematic path
+- Read the actual workflow file and any referenced reusable workflows
+- Check for common gotchas: YAML quoting, expression syntax, action version mismatches
+- If the error involves a third-party action, check its documentation via context7 or WebFetch
+- Document the root cause and fix clearly so the user can prevent recurrence
+
+Proceed with your standard workflow (reference files first for prior similar failures, then read the pipeline config, then diagnose systematically).
+```
+
+## Step 3: Relay findings
+
+Present root cause + fix. Offer to apply the fix directly.
+
+## Never do
+
+- Guess the root cause without evidence
+- Suggest "try this and see" without a hypothesis
+- Skip reading the actual workflow file
+- Add emojis

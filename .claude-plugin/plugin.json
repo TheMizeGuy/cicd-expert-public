@@ -1,0 +1,31 @@
+{
+  "name": "cicd-expert",
+  "version": "0.1.0",
+  "description": "Expert CI/CD pipeline architect, reviewer, optimizer, debugger, and security auditor. Opus agent backed by a comprehensive embedded knowledge base covering GitHub Actions, GitLab CI/CD, Jenkins, Buildkite, Tekton, and Kubernetes-native stacks. Self-hosted runner fleet design, supply chain security (SLSA/Sigstore/SBOMs), progressive delivery, DORA metrics, and cross-platform migration.",
+  "author": {
+    "name": "TheMizeGuy",
+    "url": "https://github.com/TheMizeGuy"
+  },
+  "repository": "https://github.com/TheMizeGuy/cicd-expert-public",
+  "license": "MIT",
+  "keywords": [
+    "ci-cd",
+    "github-actions",
+    "gitlab-ci",
+    "jenkins",
+    "buildkite",
+    "tekton",
+    "self-hosted",
+    "runners",
+    "pipeline-review",
+    "pipeline-optimization",
+    "supply-chain-security",
+    "slsa",
+    "sigstore",
+    "progressive-delivery",
+    "dora-metrics",
+    "devops",
+    "gitops",
+    "monorepo"
+  ]
+}
