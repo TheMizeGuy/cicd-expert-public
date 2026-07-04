@@ -54,13 +54,13 @@ DELIVERABLES:
    a. Reproduce -- confirm the failure exists and identify exact conditions
    b. Isolate -- which job, which step, which command fails?
    c. Check common failure categories:
-      - Trigger mismatch (event type, branch filter, path filter)
+      - Trigger mismatch (event type, branch filter, path filter; `schedule` triggers auto-disable after 60 days of repo inactivity on public repos)
       - Permission error (GITHUB_TOKEN scope, environment protection)
-      - Secret unavailability (fork PR, missing environment, wrong scope level)
+      - Secret unavailability (fork PR, missing environment, wrong scope level; fork PRs get no secrets and a read-only GITHUB_TOKEN by default)
       - Runner issue (label mismatch, capacity, ARC scaling, ephemeral cleanup)
       - Dependency issue (cache miss, lockfile drift, registry outage)
       - Configuration syntax (YAML indentation, expression syntax, matrix)
-      - Concurrency conflict (concurrent runs, resource contention)
+      - Concurrency conflict (concurrent runs, resource contention; concurrency group names are case-insensitive, and each group allows at most one running + one pending run)
       - Network issue (egress, DNS, private network)
    d. Hypothesize -- form 1-3 ranked hypotheses based on evidence
    e. Test -- check each hypothesis against the config and logs
@@ -74,7 +74,7 @@ DELIVERABLES:
 
 3. Fix:
    - Exact configuration change (YAML diff)
-   - Why this fixes it (with confidence grade)
+   - Why this fixes it (with confidence grade -- `[P]`/`[S]`/`[PxN]`/`[V]`/`[recall]`)
    - How to verify the fix
 
 4. Prevention:
@@ -83,7 +83,7 @@ DELIVERABLES:
 
 CONSTRAINTS:
 - NEVER guess the root cause -- follow the systematic path
-- Read the actual workflow file and any referenced reusable workflows
+- Read the actual workflow file and any referenced reusable workflows -- env vars and secrets are NOT auto-propagated from caller to callee; each nesting level must re-pass secrets explicitly
 - Check for common gotchas: YAML quoting, expression syntax, action version mismatches
 - If the error involves a third-party action, check its documentation via context7 or WebFetch
 - Document the root cause and fix clearly so the user can prevent recurrence

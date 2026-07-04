@@ -52,8 +52,8 @@ DELIVERABLES:
 
    | Severity | Location | Lens | Finding | Evidence | Fix |
    |---|---|---|---|---|---|
-   | CRITICAL | .github/workflows/ci.yml:15 | Security | Unpinned third-party action | 03 [P] | <yaml block> |
-   | HIGH | ... | Speed | Unnecessary serialization | 14 [PxN] | ... |
+   | CRITICAL | .github/workflows/ci.yml:15 | Security | Unpinned third-party action | security-hardening.md [P] | <yaml block> |
+   | HIGH | ... | Speed | Unnecessary serialization | optimization-patterns.md [PxN] | ... |
    | ... | ... | ... | ... | ... | ... |
 
 3. Seven-lens coverage checklist (explicitly note what was checked):
@@ -74,7 +74,7 @@ DELIVERABLES:
    - [pass/fail/n-a] Operability: queue time/failure hotspots observable, flaky checks surfaced
    - [pass/fail/n-a] Self-hosting accuracy: execution/control/deployment planes distinguished honestly
 
-4. Anti-pattern scan (check for all high-signal anti-patterns from 18 - Review Checklist):
+4. Anti-pattern scan (check for all high-signal anti-patterns from review-checklist.md):
    - continue-on-error on merge-critical checks
    - Brittle required check lists
    - Artifact rebuilding during deploy

@@ -64,7 +64,7 @@ git clone https://github.com/TheMizeGuy/cicd-expert-public.git cicd-expert
 # {
 #   "name": "cicd-expert",
 #   "source": "./cicd-expert",
-#   "version": "0.1.0"
+#   "version": "0.2.1"
 # }
 ```
 

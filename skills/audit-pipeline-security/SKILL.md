@@ -76,6 +76,7 @@ DELIVERABLES:
    SUPPLY CHAIN:
    - [ ] SBOM generation in build pipeline
    - [ ] Provenance attestation (Sigstore, Tekton Chains) where applicable
+   - [ ] SLSA build level assessed (L0-L3 -- artifact attestations alone = Build Level 2; attestations + reusable workflows = Level 3)
    - [ ] OpenSSF Scorecard or equivalent checks
    - [ ] StepSecurity harden-runner or egress monitoring
    - [ ] Dependency review on PRs (license, known vulnerabilities)
@@ -123,7 +124,7 @@ CONSTRAINTS:
 - Check security-hardening.md for security features and mitigations
 - If zizmor is available locally, run it and include results
 
-Proceed with your standard workflow (reference files first -- especiallys 03, 09, 10, then read all CI config, then produce the audit).
+Proceed with your standard workflow (reference files first -- especially security-hardening.md, then read all CI config, then produce the audit).
 ```
 
 ## Step 3: Relay findings

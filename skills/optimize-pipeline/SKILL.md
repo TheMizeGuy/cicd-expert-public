@@ -61,7 +61,7 @@ DELIVERABLES:
 
 3. For each optimization:
    - Expected time savings (estimated)
-   - Confidence grade
+   - Confidence grade (`[P]`/`[S]`/`[PxN]`/`[V]`/`[recall]`)
    - Before/after YAML diff
    - Risk assessment (could this hide a real failure?)
 
@@ -71,7 +71,7 @@ DELIVERABLES:
    - Remote caching viability
    - Merge queue integration
 
-5. Cost analysis (if applicable):
+5. Cost analysis (if applicable; GitHub-hosted billing multipliers: macOS ~10x and Windows ~2x the Linux per-minute rate, arm64 bills below x64):
    - Current compute cost drivers
    - Expected savings per optimization
    - Runner class efficiency (are expensive runners doing cheap work?)
@@ -86,7 +86,7 @@ CONSTRAINTS:
 - Every optimization must preserve signal quality -- no fake-green shortcuts
 - Quantify expected impact where possible
 
-Proceed with your standard workflow (reference files first -- especially 14, then analyze the pipeline DAG, then produce the plan).
+Proceed with your standard workflow (reference files first -- especially optimization-patterns.md, then analyze the pipeline DAG, then produce the plan).
 ```
 
 ## Step 3: Relay and apply

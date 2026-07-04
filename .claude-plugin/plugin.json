@@ -1,9 +1,10 @@
 {
   "name": "cicd-expert",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Expert CI/CD pipeline architect, reviewer, optimizer, debugger, and security auditor. Fable 5 agent backed by a self-contained embedded knowledge base covering GitHub Actions, GitLab CI/CD, Jenkins, Buildkite, Tekton, and Kubernetes-native stacks. Self-hosted runner fleet design, supply chain security (SLSA/Sigstore/SBOMs), progressive delivery, DORA metrics, and cross-platform migration.",
   "author": {
     "name": "TheMizeGuy",
+    "email": "ben@meipath.com",
     "url": "https://github.com/TheMizeGuy"
   },
   "repository": "https://github.com/TheMizeGuy/cicd-expert-public",

@@ -102,7 +102,7 @@ CONSTRAINTS:
 - Flag persistent runners with shared state as a security risk
 - Do NOT recommend fully self-hosted as always better -- hybrid is often correct
 
-Proceed with your standard workflow (reference files first -- especially 15 for self-hosted learnings, then read all CI and runner config, then produce the audit).
+Proceed with your standard workflow (reference files first -- especially self-hosted-runners.md, then read all CI and runner config, then produce the audit).
 ```
 
 ## Step 3: Relay findings
