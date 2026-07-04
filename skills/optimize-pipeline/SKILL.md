@@ -1,7 +1,7 @@
 ---
 name: optimize-pipeline
 description: |-
-  Optimize CI/CD pipeline performance and cost. Diagnoses whether the bottleneck is queue time, execution time, unnecessary serialization, or fleet capacity, then applies the optimization hierarchy (skip work > shorten critical path > cache smartly > fix fleet topology > tune toolchain). Triggers on "optimize my pipeline", "CI is slow", "reduce CI time", "pipeline takes too long", "speed up my builds", "CI cost too high", "reduce pipeline cost", "improve CI performance", "shorten feedback loop", "45 minute CI", "queue time is killing us". Produces before/after configuration diffs with expected impact.
+  This skill should be used when the user asks to "optimize my pipeline", "CI is slow", "reduce CI time", "pipeline takes too long", "speed up my builds", "CI cost too high", "reduce pipeline cost", "improve CI performance", "shorten feedback loop", "45 minute CI", or "queue time is killing us". Diagnoses whether the bottleneck is queue time, execution time, unnecessary serialization, or fleet capacity, then applies the optimization hierarchy (skip work > shorten critical path > cache smartly > fix fleet topology > tune toolchain). Produces before/after configuration diffs with expected impact.
 argument-hint: '[optional: scope -- all / file path / specific pain point]'
 allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
@@ -24,7 +24,7 @@ Before dispatching, collect:
 Agent({
   description: "Optimize CI/CD pipeline",
   subagent_type: "cicd-expert:cicd-expert",
-  model: "opus",
+  model: "fable",
   prompt: "<see briefing below>"
 })
 ```

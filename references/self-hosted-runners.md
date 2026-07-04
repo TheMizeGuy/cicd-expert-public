@@ -45,6 +45,26 @@ Moving `runs-on` to self-hosted only changes the execution plane. A truly self-m
 - Make cleanup explicit for any non-ephemeral worker model.
 - Treat third-party marketplace actions, package registries, and browser download CDNs as part of the self-hosted supply chain.
 
+## Managed Ephemeral Runner Services
+
+A third runner category sits between fully hosted and fully self-hosted: managed ephemeral runner
+services (for example, Namespace.so) that provision short-lived, vendor-operated VMs on demand. Frame
+this as a runner-type category to identify, not a specific vendor recommendation:
+
+- Labels select machine shape (CPU/RAM, and OS/arch); right-sizing the shape to the job matters as
+  much as it does for self-managed fleets.
+- Cache mounts typically require an additional cache-enabled label variant on the `runs-on` value --
+  a plain compute label does not automatically get a cache volume.
+- Cache volumes may enforce per-branch write allow-lists that silently discard writes from
+  non-allowed branches; verify actual cache hit rates rather than assuming a cache step is doing
+  anything.
+- A job stuck queued indefinitely ("waiting for a runner") usually means the vendor's GitHub App (or
+  equivalent integration) lacks access to that repository, not a capacity problem.
+
+These are vendor-class characteristics of the managed-ephemeral-runner model, not an endorsement of
+any specific provider -- evaluate against the same three-layer model and audit checklist as any other
+execution plane.
+
 ## Self-Hosted Audit Checklist
 
 1. **Execution plane**: Which jobs still run on hosted runners?

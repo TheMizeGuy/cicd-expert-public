@@ -1,7 +1,7 @@
 ---
 name: self-hosted-audit
 description: |-
-  Audit self-hosted CI/CD claims and runner fleet design. Applies the three-layer model (execution plane, control plane, deployment plane) to evaluate whether a pipeline is truly self-hosted, hybrid, or mislabeled. Checks runner fleet practices: ephemeral vs persistent, trust zoning, image freshness, scaling strategy, health monitoring, secret residue, and supply chain dependencies that survive the self-hosted migration (marketplace actions, package registries, browser CDNs). Triggers on "audit my self-hosted CI", "is my pipeline really self-hosted", "review my runner fleet", "self-hosted runner audit", "ARC review", "runner isolation check", "are my runners configured correctly", "self-hosted security", "runner fleet design review", "audit self-hosted claims". Produces a layer-by-layer assessment with concrete findings.
+  This skill should be used when the user asks to "audit my self-hosted CI", "is my pipeline really self-hosted", "review my runner fleet", "self-hosted runner audit", "ARC review", "runner isolation check", "are my runners configured correctly", "self-hosted security", "runner fleet design review", or "audit self-hosted claims". Audits self-hosted CI/CD claims and runner fleet design, applying the three-layer model (execution plane, control plane, deployment plane) to evaluate whether a pipeline is truly self-hosted, hybrid, or mislabeled. Checks runner fleet practices -- ephemeral vs persistent, trust zoning, image freshness, scaling strategy, health monitoring, secret residue -- and supply chain dependencies that survive the self-hosted migration (marketplace actions, package registries, browser CDNs). Produces a layer-by-layer assessment with concrete findings.
 argument-hint: '[optional: scope -- all / runner config files / specific concern]'
 allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
@@ -24,7 +24,7 @@ Read CI config files and identify:
 Agent({
   description: "Self-hosted CI/CD audit",
   subagent_type: "cicd-expert:cicd-expert",
-  model: "opus",
+  model: "fable",
   prompt: "<see briefing below>"
 })
 ```

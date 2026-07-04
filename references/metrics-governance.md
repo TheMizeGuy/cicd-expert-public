@@ -39,6 +39,14 @@ Separate waiting, running, and failing. Queue time, execution time, flaky rerun 
 - Runner trust zoning and network reach documentation.
 - Audit logging for who approved, deployed, and bypassed controls.
 
+## Branch Protection Audit Gotcha
+
+Branch protection has three independent API surfaces that can give contradictory-looking answers:
+`branches/{branch}/protection`, the `protection` object embedded in `branches/{branch}`, and
+repository rulesets. Audit all three before asserting what gates a branch, and confirm with an actual
+no-op merge attempt -- a required-check name that looks registered in one surface can still be absent
+from the surface GitHub actually enforces against.
+
 ## What to Flag
 
 - Teams tracking runtime only, with no queue-time or outcome metrics.

@@ -1,7 +1,7 @@
 ---
 name: review-pipeline
 description: |-
-  Comprehensive CI/CD pipeline review -- workflow files, security posture, performance, deployment path, and self-hosted claims. Checks across all seven lenses: correctness, speed, security, reproducibility, deployment safety, operability, and self-hosting accuracy. Triggers on "review my pipeline", "review my CI", "audit my workflows", "check my CI/CD", "is my pipeline good", "review this workflow file", "pipeline code review", "CI review", "feedback on my pipeline", "review my GitHub Actions", "audit my GitLab CI", "check my Jenkinsfile". Produces severity-tagged findings (CRITICAL/HIGH/MEDIUM/LOW/NIT) with concrete fixes and evidence-backed citations. For security-only audits, use audit-pipeline-security; for performance-only, use optimize-pipeline.
+  This skill should be used when the user asks to "review my pipeline", "review my CI", "audit my workflows", "check my CI/CD", "is my pipeline good", "review this workflow file", "pipeline code review", "CI review", "feedback on my pipeline", "review my GitHub Actions", "audit my GitLab CI", or "check my Jenkinsfile". Runs a CI/CD pipeline review across workflow files, security posture, performance, deployment path, and self-hosted claims, checking all seven lenses: correctness, speed, security, reproducibility, deployment safety, operability, and self-hosting accuracy. Produces severity-tagged findings (CRITICAL/HIGH/MEDIUM/LOW/NIT) with concrete fixes and evidence-backed citations. For security-only audits, use `audit-pipeline-security`; for performance-only, use `optimize-pipeline`.
 argument-hint: '[optional: scope -- diff / staged / pr / all / file path]'
 allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
@@ -29,7 +29,7 @@ Resolve to absolute paths. For diff-based scopes, run `git diff --name-only` to 
 Agent({
   description: "Pipeline review: <scope>",
   subagent_type: "cicd-expert:cicd-expert",
-  model: "opus",
+  model: "fable",
   prompt: "<see briefing below>"
 })
 ```
@@ -90,7 +90,7 @@ DELIVERABLES:
 
 SEVERITY DEFINITIONS:
 - CRITICAL: security or correctness bug; ship-blocker
-- HIGH: performance or trust boundary risk with real impact
+- HIGH: performance risk, trust boundary violation, or operability gap
 - MEDIUM: pattern deviation, technical debt, anti-pattern
 - LOW: style, clarity, convention
 - NIT: preference / taste

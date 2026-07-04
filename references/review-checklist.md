@@ -28,6 +28,7 @@ Operational review framework for creating, auditing, and improving CI/CD pipelin
 | "Self-hosted" label applied to a SaaS-orchestrated system | Misstates dependencies and weakens architecture reviews |
 | Unpinned third-party actions (`uses: org/action@v4`) | Tags can be moved; supply chain attack vector (CVE-2025-30066) |
 | `pull_request_target` with fork code checkout | Full secrets + read-write token on attacker-controlled code |
+| A new merge-gate job added without a matching branch-protection registration | Required status checks are an allowlist indexed by job id/name, not a reflection of what jobs exist -- a new job that isn't registered can run, fail, and the PR still merges. Ship the branch-protection registration (dashboard or `gh api`) in the same PR that adds the job, and have reviewers check both |
 
 ## Reference Template: Small Product Team
 

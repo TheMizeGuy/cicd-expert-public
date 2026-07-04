@@ -1,7 +1,7 @@
 ---
 name: audit-pipeline-security
 description: |-
-  Comprehensive CI/CD pipeline security and supply chain audit. Checks permissions (least privilege, GITHUB_TOKEN scoping), action pinning (SHA vs tag, CVE-2025-30066), script injection (attacker-controlled context), fork PR safety (pull_request vs pull_request_target), secret management (environment vs repo vs org scoping, OIDC), supply chain (SLSA, Sigstore, SBOMs, attestations, Scorecard, StepSecurity), runner isolation (trust zoning, ephemeral vs persistent), and workflow scanning (zizmor, CodeQL for Actions). Triggers on "audit my pipeline security", "is my CI secure", "pipeline security review", "supply chain audit", "check my workflow security", "harden my CI", "SLSA compliance", "action pinning audit", "are my actions pinned", "CI security check", "pipeline security". Produces pass/fail assessment per category with concrete remediation.
+  This skill should be used when the user asks to "audit my pipeline security", "is my CI secure", "pipeline security review", "supply chain audit", "check my workflow security", "harden my CI", "SLSA compliance", "action pinning audit", "are my actions pinned", "CI security check", or "pipeline security". Runs a CI/CD pipeline security and supply chain audit checking permissions (least privilege, GITHUB_TOKEN scoping), action pinning (SHA vs tag, CVE-2025-30066), script injection (attacker-controlled context), fork PR safety (pull_request vs pull_request_target), secret management (environment vs repo vs org scoping, OIDC), supply chain (SLSA, Sigstore, SBOMs, attestations, Scorecard, StepSecurity), runner isolation (trust zoning, ephemeral vs persistent), and workflow scanning (zizmor, CodeQL for Actions). Produces a pass/fail assessment per category with concrete remediation.
 argument-hint: '[optional: scope -- all / file path / specific concern]'
 allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
@@ -26,7 +26,7 @@ Dispatches the cicd-expert agent with a security-workflow briefing.
 Agent({
   description: "CI/CD security audit",
   subagent_type: "cicd-expert:cicd-expert",
-  model: "opus",
+  model: "fable",
   prompt: "<see briefing below>"
 })
 ```

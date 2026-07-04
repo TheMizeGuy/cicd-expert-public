@@ -115,3 +115,20 @@ OpenSSF tool that checks repository security health: branch protection, dependen
 - Keep secrets out of base images; prefer short-lived credentials.
 - Rebuild runner images on a schedule (not stale AMIs).
 - Log runner health, queue depth, startup time, eviction rates.
+
+## Cache and Trust Boundary Gotchas
+
+### Fork-PR Cache Poisoning
+
+GitHub Actions does not segregate caches by trust level. A low-privilege fork `pull_request` job can
+write a cache under a predictable key; a later, more privileged workflow run that restores the same
+key inherits attacker-controlled content. Never save caches from steps that touch untrusted input
+(fork PR checkouts, user-supplied branch names, PR-controlled paths). CodeQL rule:
+`actions-cache-poisoning-direct-cache`.
+
+### workflow_dispatch Ref TOCTOU
+
+A validate-ref gate on a `workflow_dispatch` input is defeated if a downstream job re-resolves
+`inputs.ref` itself -- the ref can be force-moved between the job that validated it and the job that
+uses it. Resolve the ref to a commit SHA once, in the validating job, and pass the SHA (not the ref
+name) to every downstream job.

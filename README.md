@@ -2,7 +2,7 @@
 
 Expert CI/CD pipeline architect, reviewer, optimizer, debugger, and security auditor for [Claude Code](https://claude.ai/claude-code).
 
-Opus agent backed by a comprehensive embedded knowledge base. Covers GitHub Actions, GitLab CI/CD, Jenkins, Buildkite, Tekton, and Kubernetes-native stacks.
+Fable 5 agent backed by a self-contained embedded knowledge base. Covers GitHub Actions, GitLab CI/CD, Jenkins, Buildkite, Tekton, and Kubernetes-native stacks.
 
 ## What it does
 
@@ -91,12 +91,12 @@ Add to `~/.claude/settings.json`:
 
 | Agent | Model | Purpose |
 |---|---|---|
-| `cicd-expert` | Opus | Primary expert -- handles single-repo tasks across all workflows |
-| `cicd-team-lead` | Opus | Multi-repo orchestrator -- dispatches parallel cicd-expert sub-agents (max 4) |
+| `cicd-expert` | Fable 5 | Primary expert -- handles single-repo tasks across all workflows |
+| `cicd-team-lead` | Fable 5 | Multi-repo orchestrator -- two-tier conductor pattern: dispatches Sonnet-5-xhigh recon executors per repo, dispatches Fable judgment sub-agents per scope, validates each at a gate before consolidating |
 
 ## Embedded knowledge base
 
-The plugin carries 7 comprehensive reference files in `references/`:
+The plugin carries 9 self-contained reference files in `references/`:
 
 | File | Coverage |
 |---|---|
@@ -108,6 +108,7 @@ The plugin carries 7 comprehensive reference files in `references/`:
 | `metrics-governance.md` | DORA metrics, pipeline SLIs, governance controls |
 | `platform-comparison.md` | GitHub Actions vs GitLab vs Jenkins vs Buildkite vs Tekton |
 | `review-checklist.md` | Seven-lens framework, anti-patterns, reference templates |
+| `github-actions-gotchas.md` | Merge queue gotchas, local composite action ordering and lifecycle-hook limits |
 
 The agent reads these before every non-trivial response. No training data guessing.
 

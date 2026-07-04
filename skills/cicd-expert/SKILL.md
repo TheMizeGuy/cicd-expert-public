@@ -1,7 +1,7 @@
 ---
 name: cicd-expert
 description: |-
-  Main entry point for the CI/CD Expert plugin -- dispatches the Opus cicd-expert agent for any CI/CD pipeline-related task. Use when the user mentions pipelines in the context of design, review, debugging, optimization, security, migration, self-hosted runners, or deployment, AND the specific workflow is not obvious. Classifies the request and routes to the right workflow (design / review / optimize / debug / audit-security / migrate / self-hosted-audit). Examples: "design a pipeline for...", "review my CI", "pipeline is slow", "optimize this workflow", "secure my pipeline", "migrate from Jenkins to GitHub Actions", "audit my self-hosted setup". If the scope is explicitly a cross-project audit (3+ repos OR "cross-project pipeline audit" OR `--team`), routes to `cross-project-pipeline-audit` skill instead.
+  This skill should be used when the user mentions pipelines in the context of design, review, debugging, optimization, security, migration, self-hosted runners, or deployment, and the specific workflow is not obvious -- for example "design a pipeline for...", "review my CI", "pipeline is slow", "optimize this workflow", "secure my pipeline", "migrate from Jenkins to GitHub Actions", "audit my self-hosted setup". This is the main entry point for the CI/CD Expert plugin: it classifies the request, dispatches the Fable 5 cicd-expert agent, and routes to the right workflow (design / review / optimize / debug / audit-security / migrate / self-hosted-audit). If the scope is explicitly a cross-project audit (3+ repos OR "cross-project pipeline audit" OR `--team`), it routes to the `cross-project-pipeline-audit` skill instead.
 argument-hint: '[optional: task description or scope]'
 allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
@@ -21,7 +21,7 @@ Classifies the user's CI/CD request and dispatches the cicd-expert agent with th
 | "security", "supply chain", "permissions", "pinning" | `audit-pipeline-security` skill |
 | "migrate", "move from X to Y", "convert", "switch to" | `migrate-pipeline` skill |
 | "self-hosted", "runner fleet", "ARC", "runner isolation" | `self-hosted-audit` skill |
-| "cross-project", "--team", 3+ repos mentioned | Dispatch `cicd-team-lead` agent |
+| "cross-project", "--team", 3+ repos mentioned | `cross-project-pipeline-audit` skill |
 | Ambiguous | Ask 1-2 targeted questions, then route |
 
 ## Step 2: Resolve scope
@@ -39,13 +39,20 @@ Resolve to absolute paths. Run `git status` to confirm working tree state if sco
 
 ## Step 3: Dispatch
 
+If Step 1 matched a specific skill (`design-pipeline`, `review-pipeline`, `optimize-pipeline`,
+`debug-pipeline`, `audit-pipeline-security`, `migrate-pipeline`, `self-hosted-audit`, or
+`cross-project-pipeline-audit`), invoke that skill directly -- its own workflow-specific briefing
+(findings tables, concept-mapping tables, phased plans) supersedes this generic dispatch. The snippet
+below is the fallback used ONLY for the Ambiguous row, after its clarifying questions are answered and
+no specific skill applies.
+
 Dispatch the cicd-expert agent with the resolved workflow type and scope. Include the original user request verbatim.
 
 ```
 Agent({
   description: "CI/CD expert: <workflow type>",
   subagent_type: "cicd-expert:cicd-expert",
-  model: "opus",
+  model: "fable",
   prompt: "<briefing with workflow, scope, working directory>"
 })
 ```
@@ -53,3 +60,11 @@ Agent({
 ## Step 4: Relay findings
 
 Present the Summary + structured findings. Offer to apply fixes one-by-one or batch-apply approved changes.
+
+## Never do
+
+- Dispatch `cicd-team-lead` directly by `subagent_type` -- plugin-namespaced dispatch strips the `Agent`
+  tool it needs for sub-dispatch; always route cross-project scope through the
+  `cross-project-pipeline-audit` skill
+- Skip Step 1 classification and jump straight to a generic dispatch
+- Add emojis

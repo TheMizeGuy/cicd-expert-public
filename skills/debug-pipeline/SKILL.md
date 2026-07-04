@@ -1,7 +1,7 @@
 ---
 name: debug-pipeline
 description: |-
-  Systematically debug CI/CD pipeline failures -- build errors, test failures, deployment issues, runner problems, trigger mismatches, permission errors, secret availability, flaky tests, and silent failures. Uses systematic debugging (reproduce, isolate, hypothesize, test, confirm, fix, verify) -- never guesses. Triggers on "CI is broken", "pipeline failing", "workflow not running", "debug my pipeline", "build failed", "deploy failed", "runner not picking up jobs", "workflow trigger not working", "secrets not available", "CI flaky", "pipeline keeps failing", "why did CI fail", "fix my workflow". Produces root cause analysis with concrete fix.
+  This skill should be used when the user asks to "debug my pipeline", "fix my workflow", or reports "CI is broken", "pipeline failing", "workflow not running", "build failed", "deploy failed", "runner not picking up jobs", "workflow trigger not working", "secrets not available", "CI flaky", "pipeline keeps failing", or "why did CI fail". Systematically debugs CI/CD pipeline failures -- build errors, test failures, deployment issues, runner problems, trigger mismatches, permission errors, secret availability, flaky tests, and silent failures -- using systematic debugging (reproduce, isolate, hypothesize, test, confirm, fix, verify), never guessing. Produces root cause analysis with a concrete fix.
 argument-hint: '[optional: error message, failing job name, or workflow file]'
 allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
@@ -27,7 +27,7 @@ Read the failing workflow file and any recent git changes to CI config.
 Agent({
   description: "Debug CI/CD failure",
   subagent_type: "cicd-expert:cicd-expert",
-  model: "opus",
+  model: "fable",
   prompt: "<see briefing below>"
 })
 ```

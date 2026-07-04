@@ -1,7 +1,7 @@
 ---
 name: design-pipeline
 description: |-
-  Design a new CI/CD pipeline from scratch. Use when the user wants to create a CI/CD pipeline, set up continuous integration, build a deployment workflow, or configure CI for a new project. Covers platform selection, pipeline architecture (DAG design, merge gates, artifact strategy), security hardening, deployment path, self-hosted runner topology, and observability. Triggers on "design a pipeline", "set up CI", "create CI/CD", "build a workflow", "configure GitHub Actions", "set up GitLab CI", "create Jenkinsfile", "new pipeline for", "CI for my project". Produces complete, runnable configuration files with architecture rationale.
+  This skill should be used when the user asks to "design a pipeline", "set up CI", "create CI/CD", "build a workflow", "configure GitHub Actions", "set up GitLab CI", "create Jenkinsfile", "new pipeline for...", or "CI for my project" -- any request to create a new CI/CD pipeline, set up continuous integration, or build a deployment workflow from scratch. Covers platform selection, pipeline architecture (DAG design, merge gates, artifact strategy), security hardening, deployment path, runner topology, and observability. Produces complete, runnable configuration files with architecture rationale.
 argument-hint: '[optional: platform preference, repo description, or constraints]'
 allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
@@ -30,7 +30,7 @@ Read existing project files (`package.json`, `Dockerfile`, `tsconfig.json`, lang
 Agent({
   description: "Design CI/CD pipeline",
   subagent_type: "cicd-expert:cicd-expert",
-  model: "opus",
+  model: "fable",
   prompt: "<see briefing below>"
 })
 ```

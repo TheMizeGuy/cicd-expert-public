@@ -1,7 +1,7 @@
 ---
 name: migrate-pipeline
 description: |-
-  Migrate CI/CD pipelines between platforms or upgrade pipeline architecture. Supports Jenkins to GitHub Actions, Jenkins to GitLab CI, GitLab to GitHub Actions, CircleCI to GitHub Actions, Travis CI to GitHub Actions, Buildkite to GitHub Actions, and any other cross-platform migration. Also handles major version upgrades (reusable workflows adoption, composite actions refactoring, monorepo strategy changes). Triggers on "migrate from Jenkins to GitHub Actions", "move from GitLab CI to GitHub Actions", "convert my Jenkinsfile", "switch CI platforms", "migrate pipeline", "move from CircleCI", "upgrade my CI", "modernize my pipeline", "refactor pipeline architecture". Produces phased migration plan with feature parity mapping and rollback at each stage.
+  This skill should be used when the user asks to "migrate from Jenkins to GitHub Actions", "move from GitLab CI to GitHub Actions", "convert my Jenkinsfile", "switch CI platforms", "migrate pipeline", "move from CircleCI", "upgrade my CI", "modernize my pipeline", or "refactor pipeline architecture". Migrates CI/CD pipelines between platforms or upgrades pipeline architecture -- Jenkins to GitHub Actions, Jenkins to GitLab CI, GitLab to GitHub Actions, CircleCI to GitHub Actions, Travis CI to GitHub Actions, Buildkite to GitHub Actions, and any other cross-platform migration, plus major version upgrades (reusable workflows adoption, composite actions refactoring, monorepo strategy changes). Produces a phased migration plan with feature parity mapping and rollback at each stage.
 argument-hint: '[optional: source platform -> target platform, or migration scope]'
 allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
@@ -25,7 +25,7 @@ If user provided source->target, proceed. If not, ask.
 Agent({
   description: "Migrate CI/CD pipeline",
   subagent_type: "cicd-expert:cicd-expert",
-  model: "opus",
+  model: "fable",
   prompt: "<see briefing below>"
 })
 ```
