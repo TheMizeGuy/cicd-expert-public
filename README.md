@@ -54,38 +54,19 @@ Applied in order -- never jump to toolchain tuning first:
 
 ## Installation
 
-### Option 1: Clone directly
-
 ```bash
-# Clone into your plugins directory
-git clone https://github.com/TheMizeGuy/cicd-expert-public.git cicd-expert
+# 1. Add this repo as a marketplace
+claude plugin marketplace add https://github.com/TheMizeGuy/cicd-expert-public.git
 
-# If using a directory-based plugin registry, add to your marketplace.json:
-# {
-#   "name": "cicd-expert",
-#   "source": "./cicd-expert",
-#   "version": "0.2.2"
-# }
+# 2. Install the plugin
+claude plugin install cicd-expert@cicd-expert-public
+
+# 3. Restart Claude Code for the plugin to load
 ```
 
-### Option 2: Use as a plugin directory
+After restart, verify with `claude plugin list`. Updates ship through the same channel: when a new release lands, run `claude plugin marketplace update cicd-expert-public` then `claude plugin update cicd-expert@cicd-expert-public`, or accept the update prompt in `/plugin`.
 
-```bash
-# Run Claude Code with the plugin
-claude --plugin-dir /path/to/cicd-expert
-```
-
-### Enable in settings
-
-Add to `~/.claude/settings.json`:
-
-```json
-{
-  "enabledPlugins": {
-    "cicd-expert@your-registry": true
-  }
-}
-```
+Manual alternative: `git clone https://github.com/TheMizeGuy/cicd-expert-public.git` and load with `claude --plugin-dir <path>`.
 
 ## Agents
 
