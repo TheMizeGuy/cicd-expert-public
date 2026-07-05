@@ -2,6 +2,12 @@
 
 All notable changes to `cicd-expert` are documented here.
 
+## [0.2.1] - 2026-07-05
+
+### Changed
+
+- **Version realignment**: reset this public mirror's version from 0.2.2 to 0.2.1 so it tracks the private source of truth (`TheMizeGuy/cicd-expert`). Public mirror versions now move in lockstep with the private plugin; the earlier independent public-milestone numbering (0.2.2) is retired. No functional or content change — this bump only aligns the version number.
+
 ## 0.2.2 -- 2026-07-05
 
 - Un-pinned both agents' `model: fable` frontmatter; `cicd-expert` and `cicd-team-lead` now inherit the session model (always the strongest available Claude) instead of a named model, so the plugin keeps working across model transitions.
