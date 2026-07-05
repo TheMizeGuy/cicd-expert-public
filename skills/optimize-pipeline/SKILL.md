@@ -20,14 +20,10 @@ Before dispatching, collect:
 
 ## Step 2: Dispatch cicd-expert
 
-```
-Agent({
-  description: "Optimize CI/CD pipeline",
-  subagent_type: "cicd-expert:cicd-expert",
-  model: "fable",
-  prompt: "<see briefing below>"
-})
-```
+Dispatch per the shared contract `../../references/dispatch-contract.md`: `subagent_type:
+"cicd-expert:cicd-expert"`, model omitted (inherits the session model; inline execution allowed
+per the contract's Execution mode when the session model is already the strongest tier),
+description "Optimize CI/CD pipeline", prompt = the briefing below.
 
 ### Briefing
 
@@ -91,7 +87,7 @@ Proceed with your standard workflow (reference files first -- especially optimiz
 
 ## Step 3: Relay and apply
 
-Present the bottleneck diagnosis + optimization plan ordered by impact. Offer to apply changes incrementally.
+Check the contract's acceptance criteria first. Present the bottleneck diagnosis + optimization plan ordered by impact. Offer to apply changes incrementally.
 
 ## Never do
 

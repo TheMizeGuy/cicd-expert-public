@@ -25,14 +25,10 @@ Resolve to absolute paths. For diff-based scopes, run `git diff --name-only` to 
 
 ## Step 2: Dispatch cicd-expert
 
-```
-Agent({
-  description: "Pipeline review: <scope>",
-  subagent_type: "cicd-expert:cicd-expert",
-  model: "fable",
-  prompt: "<see briefing below>"
-})
-```
+Dispatch per the shared contract `../../references/dispatch-contract.md`: `subagent_type:
+"cicd-expert:cicd-expert"`, model omitted (inherits the session model; inline execution allowed
+per the contract's Execution mode when the session model is already the strongest tier),
+description "Pipeline review: <scope>", prompt = the briefing below.
 
 ### Briefing
 
@@ -105,7 +101,7 @@ Proceed with your standard workflow (reference files first, then read all CI con
 
 ## Step 3: Relay findings
 
-Present the Summary + severity-tagged table. Offer to apply fixes one-by-one starting with CRITICAL, or to dispatch a fresh cicd-expert agent in "fix" mode to batch-apply approved findings.
+Check the contract's acceptance criteria first. Present the Summary + severity-tagged table. Offer to apply fixes one-by-one starting with CRITICAL, or to dispatch a fresh cicd-expert agent in "fix" mode to batch-apply approved findings.
 
 ## Never do
 

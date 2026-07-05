@@ -21,14 +21,10 @@ If user provided source->target, proceed. If not, ask.
 
 ## Step 2: Dispatch cicd-expert
 
-```
-Agent({
-  description: "Migrate CI/CD pipeline",
-  subagent_type: "cicd-expert:cicd-expert",
-  model: "fable",
-  prompt: "<see briefing below>"
-})
-```
+Dispatch per the shared contract `../../references/dispatch-contract.md`: `subagent_type:
+"cicd-expert:cicd-expert"`, model omitted (inherits the session model; inline execution allowed
+per the contract's Execution mode when the session model is already the strongest tier),
+description "Migrate CI/CD pipeline", prompt = the briefing below.
 
 ### Briefing
 
@@ -101,7 +97,7 @@ Proceed with your standard workflow (reference files first, then read all source
 
 ## Step 3: Relay and apply
 
-Present the concept mapping + phased plan. Offer to produce target configuration files for Phase 1.
+Check the contract's acceptance criteria first. Present the concept mapping + phased plan. Offer to produce target configuration files for Phase 1.
 
 ## Never do
 

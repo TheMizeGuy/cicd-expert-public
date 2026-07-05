@@ -23,14 +23,10 @@ Read the failing workflow file and any recent git changes to CI config.
 
 ## Step 2: Dispatch cicd-expert
 
-```
-Agent({
-  description: "Debug CI/CD failure",
-  subagent_type: "cicd-expert:cicd-expert",
-  model: "fable",
-  prompt: "<see briefing below>"
-})
-```
+Dispatch per the shared contract `../../references/dispatch-contract.md`: `subagent_type:
+"cicd-expert:cicd-expert"`, model omitted (inherits the session model; inline execution allowed
+per the contract's Execution mode when the session model is already the strongest tier),
+description "Debug CI/CD failure", prompt = the briefing below.
 
 ### Briefing
 
@@ -93,7 +89,7 @@ Proceed with your standard workflow (reference files first for prior similar fai
 
 ## Step 3: Relay findings
 
-Present root cause + fix. Offer to apply the fix directly.
+Check the contract's acceptance criteria first. Present root cause + fix. Offer to apply the fix directly.
 
 ## Never do
 

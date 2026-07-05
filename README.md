@@ -2,7 +2,7 @@
 
 Expert CI/CD pipeline architect, reviewer, optimizer, debugger, and security auditor for [Claude Code](https://claude.ai/claude-code).
 
-Fable 5 agent backed by a self-contained embedded knowledge base. Covers GitHub Actions, GitLab CI/CD, Jenkins, Buildkite, Tekton, and Kubernetes-native stacks.
+Runs on the session model -- always the strongest available Claude -- and is backed by a self-contained embedded knowledge base. Covers GitHub Actions, GitLab CI/CD, Jenkins, Buildkite, Tekton, and Kubernetes-native stacks.
 
 ## What it does
 
@@ -64,7 +64,7 @@ git clone https://github.com/TheMizeGuy/cicd-expert-public.git cicd-expert
 # {
 #   "name": "cicd-expert",
 #   "source": "./cicd-expert",
-#   "version": "0.2.1"
+#   "version": "0.2.2"
 # }
 ```
 
@@ -91,12 +91,13 @@ Add to `~/.claude/settings.json`:
 
 | Agent | Model | Purpose |
 |---|---|---|
-| `cicd-expert` | Fable 5 | Primary expert -- handles single-repo tasks across all workflows |
-| `cicd-team-lead` | Fable 5 | Multi-repo orchestrator -- two-tier conductor pattern: dispatches Sonnet-5-xhigh recon executors per repo, dispatches Fable judgment sub-agents per scope, validates each at a gate before consolidating |
+| `cicd-expert` | Session model (always the strongest available Claude) | Primary expert -- handles single-repo tasks across all workflows |
+| `cicd-team-lead` | Session model (always the strongest available Claude) | Multi-repo orchestrator -- two-tier conductor pattern: dispatches Sonnet-5-xhigh recon executors per repo, dispatches session-model judgment sub-agents per scope, validates each at a gate before consolidating |
 
 ## Embedded knowledge base
 
-The plugin carries 9 self-contained reference files in `references/`:
+The plugin carries 9 self-contained domain reference files in `references/`, read by the
+`cicd-expert` agent before every non-trivial response (no training data guessing):
 
 | File | Coverage |
 |---|---|
@@ -110,7 +111,17 @@ The plugin carries 9 self-contained reference files in `references/`:
 | `review-checklist.md` | Seven-lens framework, anti-patterns, reference templates |
 | `github-actions-gotchas.md` | Merge queue gotchas, local composite action ordering and lifecycle-hook limits |
 
-The agent reads these before every non-trivial response. No training data guessing.
+A tenth file, `references/dispatch-contract.md`, is not domain knowledge -- it is the shared
+dispatch mechanics (Agent call template, briefing conventions, execution mode, acceptance
+criteria) that the seven single-workflow skills point to instead of each repeating the same
+boilerplate. Two skills also carry their own long checklist briefings in a skill-local
+`references/` subdirectory (`skills/audit-pipeline-security/references/security-checklist.md`,
+`skills/self-hosted-audit/references/audit-briefing.md`) for the same reason.
+
+## Documentation
+
+- [`USAGE.md`](USAGE.md) -- quickstart, one worked walkthrough per skill, troubleshooting table.
+- [`CHANGELOG.md`](CHANGELOG.md) -- version history.
 
 ## Anti-patterns detected
 

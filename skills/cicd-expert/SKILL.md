@@ -1,7 +1,7 @@
 ---
 name: cicd-expert
 description: |-
-  This skill should be used when the user mentions pipelines in the context of design, review, debugging, optimization, security, migration, self-hosted runners, or deployment, and the specific workflow is not obvious -- for example "design a pipeline for...", "review my CI", "pipeline is slow", "optimize this workflow", "secure my pipeline", "migrate from Jenkins to GitHub Actions", "audit my self-hosted setup". This is the main entry point for the CI/CD Expert plugin: it classifies the request, dispatches the Fable 5 cicd-expert agent, and routes to the right workflow (design / review / optimize / debug / audit-security / migrate / self-hosted-audit). If the scope is explicitly a cross-project audit (3+ repos OR "cross-project pipeline audit" OR `--team`), it routes to the `cross-project-pipeline-audit` skill instead.
+  This skill should be used when the user mentions pipelines in the context of design, review, debugging, optimization, security, migration, self-hosted runners, or deployment, and the specific workflow is not obvious -- for example "design a pipeline for...", "review my CI", "pipeline is slow", "optimize this workflow", "secure my pipeline", "migrate from Jenkins to GitHub Actions", "audit my self-hosted setup". This is the main entry point for the CI/CD Expert plugin: it classifies the request, dispatches the cicd-expert agent (running on the session model), and routes to the right workflow (design / review / optimize / debug / audit-security / migrate / self-hosted-audit). If the scope is explicitly a cross-project audit (3+ repos OR "cross-project pipeline audit" OR `--team`), it routes to the `cross-project-pipeline-audit` skill instead.
 argument-hint: '[optional: task description or scope]'
 allowed-tools: Agent, Read, Grep, Glob, Bash, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
 ---
@@ -46,20 +46,16 @@ If Step 1 matched a specific skill (`design-pipeline`, `review-pipeline`, `optim
 below is the fallback used ONLY for the Ambiguous row, after its clarifying questions are answered and
 no specific skill applies.
 
-Dispatch the cicd-expert agent with the resolved workflow type and scope. Include the original user request verbatim.
-
-```
-Agent({
-  description: "CI/CD expert: <workflow type>",
-  subagent_type: "cicd-expert:cicd-expert",
-  model: "fable",
-  prompt: "<briefing with workflow, scope, working directory>"
-})
-```
+Dispatch the cicd-expert agent with the resolved workflow type and scope per the shared contract
+`../../references/dispatch-contract.md`: `subagent_type: "cicd-expert:cicd-expert"`, model omitted
+(inherits the session model; inline execution allowed per the contract's Execution mode when the
+session model is already the strongest tier), description "CI/CD expert: <workflow type>", prompt
+= a briefing following the contract's conventions (original user request verbatim, workflow,
+working directory, scope).
 
 ## Step 4: Relay findings
 
-Present the Summary + structured findings. Offer to apply fixes one-by-one or batch-apply approved changes.
+Check the contract's acceptance criteria first. Present the Summary + structured findings. Offer to apply fixes one-by-one or batch-apply approved changes.
 
 ## Never do
 

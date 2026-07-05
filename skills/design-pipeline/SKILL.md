@@ -26,14 +26,10 @@ Read existing project files (`package.json`, `Dockerfile`, `tsconfig.json`, lang
 
 ## Step 2: Dispatch cicd-expert
 
-```
-Agent({
-  description: "Design CI/CD pipeline",
-  subagent_type: "cicd-expert:cicd-expert",
-  model: "fable",
-  prompt: "<see briefing below>"
-})
-```
+Dispatch per the shared contract `../../references/dispatch-contract.md`: `subagent_type:
+"cicd-expert:cicd-expert"`, model omitted (inherits the session model; inline execution allowed
+per the contract's Execution mode when the session model is already the strongest tier),
+description "Design CI/CD pipeline", prompt = the briefing below.
 
 ### Briefing
 
@@ -95,7 +91,7 @@ Proceed with your standard workflow (reference files first, then codebase inspec
 
 ## Step 3: Relay and apply
 
-Present the architecture summary + key files. Offer to write the configuration files to the project directory.
+Check the contract's acceptance criteria first. Present the architecture summary + key files. Offer to write the configuration files to the project directory.
 
 ## Never do
 

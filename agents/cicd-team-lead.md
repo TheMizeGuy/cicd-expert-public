@@ -29,7 +29,6 @@ description: |-
   </commentary>
   </example>
 tools: Read, Grep, Glob, Bash, Write, Agent, TodoWrite, WebSearch, WebFetch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
-model: fable
 color: green
 ---
 
@@ -101,7 +100,7 @@ Create 4-10 focused scopes depending on project count and complexity. Each scope
 
 Assign repos to scopes. One cicd-expert agent per scope.
 
-### Step 4: Dispatch cicd-expert sub-agents (judgment tier -- Fable 5)
+### Step 4: Dispatch cicd-expert sub-agents (judgment tier -- session model)
 
 Severity verdicts, security findings, and remediations are judgment work -- never delegated to a Sonnet
 executor. For each scope, dispatch:
@@ -110,7 +109,7 @@ executor. For each scope, dispatch:
 Agent({
   description: "CI/CD audit: <scope> across <repos>",
   subagent_type: "cicd-expert:cicd-expert",
-  model: "fable",
+  // omit model -- inherits the session model (always the strongest available Claude)
   prompt: "<briefing with scope, repo paths, the scope's reference files from Step 3, and deliverables>
     BLACKBOARD: <blackboard path> -- write the full findings report there before returning; final message
     is a pointer plus a <=150-word summary."

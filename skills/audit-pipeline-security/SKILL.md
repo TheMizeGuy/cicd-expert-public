@@ -22,114 +22,23 @@ Dispatches the cicd-expert agent with a security-workflow briefing.
 
 ## Step 2: Dispatch cicd-expert
 
-```
-Agent({
-  description: "CI/CD security audit",
-  subagent_type: "cicd-expert:cicd-expert",
-  model: "fable",
-  prompt: "<see briefing below>"
-})
-```
+Dispatch per the shared contract `../../references/dispatch-contract.md`: `subagent_type:
+"cicd-expert:cicd-expert"`, model omitted (inherits the session model; inline execution allowed
+per the contract's Execution mode when the session model is already the strongest tier),
+description "CI/CD security audit".
 
-### Briefing
-
-```
-ORIGINAL USER REQUEST: <verbatim>
-
-WORKFLOW: security
-
-SCOPE: <resolved scope>
-
-WORKING DIRECTORY: <absolute path>
-
-DELIVERABLES:
-1. Security assessment checklist (for each, document Pass / Fail / N-A with evidence):
-
-   PERMISSIONS AND LEAST PRIVILEGE:
-   - [ ] Workflow-level `permissions: {}` (deny-all default)
-   - [ ] Per-job permissions explicitly scoped
-   - [ ] No `contents: write` on PR validation jobs
-   - [ ] `id-token: write` only on OIDC jobs
-
-   ACTION PINNING:
-   - [ ] All third-party actions pinned to commit SHA (not tags)
-   - [ ] Dependabot configured for `github-actions` ecosystem
-   - [ ] No usage of compromised or abandoned actions
-   - [ ] First-party actions (actions/*) at minimum pinned to major version
-
-   SCRIPT INJECTION:
-   - [ ] No direct interpolation of attacker-controlled context (body, title, head_ref, etc.)
-   - [ ] All user-supplied values passed via `env:` blocks, not `${{ }}` in `run:`
-   - [ ] No `eval` or dynamic code execution with user input
-
-   FORK PR SAFETY:
-   - [ ] `pull_request` (not `pull_request_target`) for fork builds
-   - [ ] If `pull_request_target` is used: NO checkout of fork code
-   - [ ] `workflow_run` is not used to grant fork PRs elevated permissions
-
-   SECRET MANAGEMENT:
-   - [ ] Production secrets in environment-scoped secrets (not repo-level)
-   - [ ] OIDC used for cloud authentication where possible (AWS, GCP, Azure)
-   - [ ] No long-lived PATs in secrets (prefer GITHUB_TOKEN or OIDC)
-   - [ ] Dependabot secrets separated from Actions secrets
-
-   SUPPLY CHAIN:
-   - [ ] SBOM generation in build pipeline
-   - [ ] Provenance attestation (Sigstore, Tekton Chains) where applicable
-   - [ ] SLSA build level assessed (L0-L3 -- artifact attestations alone = Build Level 2; attestations + reusable workflows = Level 3)
-   - [ ] OpenSSF Scorecard or equivalent checks
-   - [ ] StepSecurity harden-runner or egress monitoring
-   - [ ] Dependency review on PRs (license, known vulnerabilities)
-
-   RUNNER ISOLATION:
-   - [ ] Ephemeral runners for untrusted workloads (fork PRs)
-   - [ ] Trust zones: deployment runners separate from validation runners
-   - [ ] No persistent credentials on runner disk
-   - [ ] Runner images rebuilt on schedule (not stale AMIs)
-
-   WORKFLOW SCANNING:
-   - [ ] zizmor or CodeQL for Actions configured
-   - [ ] SARIF results uploaded to security tab (if GitHub)
-
-2. Severity-tagged findings table:
-   | Severity | Location | Category | Finding | Evidence | Fix |
-   |---|---|---|---|---|---|
-
-3. Supply chain dependency map:
-   - All remote `uses:` actions with current pinning status
-   - Package registries accessed during CI
-   - Container image sources
-   - External URLs fetched during builds
-
-4. Risk summary:
-   - Weakest trust boundary
-   - Most dangerous unpinned dependency
-   - Highest-impact remediation
-
-5. Verification steps (how to confirm fixes work)
-
-6. References (reference files, CVEs, docs URLs)
-
-SEVERITY DEFINITIONS:
-- CRITICAL: exploitable security bug (script injection, unpinned action with known CVE, fork code with full secrets)
-- HIGH: trust boundary violation or missing isolation with real attack surface
-- MEDIUM: missing hardening that increases blast radius
-- LOW: defense-in-depth improvement
-- NIT: security hygiene preference
-
-CONSTRAINTS:
-- Walk the security checklist methodically -- do not skip categories
-- For CRITICAL/HIGH: provide exact YAML remediation
-- Reference CVE-2025-30066 (tj-actions) when discussing action pinning
-- Check security-hardening.md for security features and mitigations
-- If zizmor is available locally, run it and include results
-
-Proceed with your standard workflow (reference files first -- especially security-hardening.md, then read all CI config, then produce the audit).
-```
+Prompt: read `references/security-checklist.md` (in this skill's directory) and inline its full
+fenced briefing with the scope resolved from Step 1. The briefing walks seven security
+categories -- permissions/least-privilege, action pinning, script injection, fork PR safety,
+secret management, supply chain, runner isolation -- plus workflow scanning, each documented
+Pass / Fail / N-A with evidence, then a severity-tagged findings table, supply-chain dependency
+map, risk summary, verification steps, and references, with severity definitions
+(CRITICAL/HIGH/MEDIUM/LOW/NIT) included.
 
 ## Step 3: Relay findings
 
-Present the security assessment summary + critical findings. Offer to apply hardening changes.
+Check the contract's acceptance criteria first. Present the security assessment summary +
+critical findings. Offer to apply hardening changes.
 
 ## Never do
 
