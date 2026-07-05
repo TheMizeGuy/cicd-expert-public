@@ -93,7 +93,7 @@ Every non-obvious claim in a report carries a confidence grade (`[P]` primary so
 /cicd-expert:cross-project-pipeline-audit --repos=api,web,worker
 ```
 
-**What happens:** the `cicd-team-lead` agent maps each repo's pipeline surface, partitions the work into 4-10 focused scopes (build validation, security posture, deployment path, runner fleet, observability, cross-repo patterns), and runs a two-tier dispatch -- Sonnet-5-xhigh executors do per-repo recon, session-model sub-agents render judgment per scope, each validated at a gate before the team lead synthesizes the consolidated report. Bounded by the plugin's fan-out budget (see [README](README.md#agents)).
+**What happens:** the `cicd-team-lead` agent maps each repo's pipeline surface, partitions the work into 4-10 focused scopes (build validation, security posture, deployment path, runner fleet, observability, cross-repo patterns), and runs a two-tier dispatch -- conductor-selected executors (Sonnet 5 @ `xhigh`, or Opus 4.8 when the recon needs deeper judgment) do per-repo recon, session-model sub-agents render judgment per scope, each validated at a gate before the team lead synthesizes the consolidated report. Bounded by the plugin's fan-out budget (see [README](README.md#agents)).
 
 **Output shape:** a unified report with an overall verdict, per-repo summaries and deltas, and cross-cutting pattern detection (the same issue recurring across repos).
 
@@ -120,7 +120,7 @@ Every non-obvious claim in a report carries a confidence grade (`[P]` primary so
 
 **Does it modify my CI config directly?** Not without approval. Every workflow ends with "offer to apply" -- fixes, migrations, and new pipeline files are written only after you say yes.
 
-**Which model runs this?** The `cicd-expert` and `cicd-team-lead` agents both run on the session model -- always the strongest available Claude Code model, whichever one that is. `cicd-team-lead` additionally dispatches Sonnet-5-xhigh executors for per-repo reconnaissance in team mode; judgment and severity verdicts are never delegated to them.
+**Which model runs this?** The `cicd-expert` and `cicd-team-lead` agents both run on the session model -- always the strongest available Claude Code model, whichever one that is. `cicd-team-lead` additionally dispatches conductor-selected executors (Sonnet 5 @ `xhigh` or Opus 4.8) for per-repo reconnaissance in team mode; judgment and severity verdicts are never delegated to them.
 
 **Do I need the `context7` plugin?** No, but it is recommended. Without it, the agent relies on its training data for CI-platform syntax, which can be stale for newer features.
 

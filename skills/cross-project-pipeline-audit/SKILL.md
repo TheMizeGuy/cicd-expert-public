@@ -43,11 +43,11 @@ The team lead runs a two-tier conductor-executor dispatch:
    inventories (identification by type, not migration doctrine), per-file mechanical transforms. Each
    recon dispatch carries a SHARED CONTEXT pointer, non-overlapping repo/file ownership, an ESCALATE
    rule, and a BLACKBOARD path. These recon executors are exempt from the ≤10/wave, ≤20/turn fan-out cap
-   (Sonnet-5-xhigh executors scale to natural breadth) but still need a hard per-repo iteration cap.
+   (conductor-selected executors -- Sonnet 5 @ `xhigh` or Opus 4.8 -- scale to natural breadth) but still need a hard per-repo iteration cap.
 4. Validate each executor's blackboard before accepting its findings (read it, spot-check against the
    repo, one re-dispatch max on failure)
 5. Synthesize verdicts, cross-repo pattern detection, and the consolidated report on the session model
-   (always the strongest available Claude) -- judgment and synthesis are never delegated to a Sonnet
+   (always the strongest available Claude) -- judgment and synthesis are never delegated to any
    executor. This conductor-class stage IS bound by the ≤10/wave, ≤20/turn session-model cap.
 
 Ground the consolidated report format and cross-cutting anti-pattern detection in `review-checklist.md`
@@ -62,8 +62,8 @@ Present the unified cross-project report with overall verdict, per-repo summary,
 
 - Dispatch for a single repo (use `review-pipeline` instead)
 - Exceed the fan-out budget (≤10 agents/wave, ≤20/turn) for session-model dispatches without
-  explicit user sign-off -- Sonnet-5-xhigh recon executors are exempt from this cap but still need a
-  hard iteration cap
+  explicit user sign-off -- conductor-selected recon executors are exempt from this cap but still need a
+  hard iteration cap (>20 Opus executors in one turn still needs sign-off)
 - Skip the validation gate -- accept an executor's recon findings without reading its blackboard and
   spot-checking against the repo
 - Produce separate reports per repo instead of one unified report

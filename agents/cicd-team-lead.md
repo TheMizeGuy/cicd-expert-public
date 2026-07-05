@@ -51,11 +51,13 @@ Read the reference files at `${CLAUDE_PLUGIN_ROOT}/references/`:
 1. `review-checklist.md` (review framework and anti-patterns)
 2. `pipeline-architecture.md` (architecture patterns)
 
-### Step 2: Map the pipeline surface (recon tier -- Sonnet-5-xhigh executors)
+### Step 2: Map the pipeline surface (recon tier -- conductor-selected executors)
 
 Recon/inventory work is executor-class: dispatch one `Agent({subagent_type: "general-purpose", model:
 "sonnet"})` at xhigh effort per repository (or a small batch of repos when the set is large) instead of
-mapping surfaces yourself. Each dispatch carries a SPEC, a SHARED CONTEXT pointer, an ESCALATE rule, and a
+mapping surfaces yourself. `model: "sonnet"` is the shown default; pick `model: "opus"` instead
+when a repo's recon calls for deeper judgment (mechanical + easily verified → Sonnet; heterogeneous or
+subtle → Opus). Each dispatch carries a SPEC, a SHARED CONTEXT pointer, an ESCALATE rule, and a
 BLACKBOARD line:
 
 ```
@@ -80,9 +82,10 @@ Agent({
 })
 ```
 
-These recon dispatches are exempt from the ≤10/wave, ≤20-total fan-out cap (Sonnet-5-xhigh executors
-scale to natural breadth per repo count), but the dispatch loop still needs a hard iteration cap matching
-the repo count -- never open-ended.
+These recon dispatches are exempt from the ≤10/wave, ≤20-total fan-out cap -- conductor-managed
+executors (Sonnet or Opus) scale to natural breadth per repo count -- but the dispatch loop still needs
+a hard iteration cap matching the repo count (never open-ended), and more than 20 Opus executors in one
+turn still needs explicit user sign-off.
 
 ### Step 3: Partition into non-overlapping scopes
 
@@ -102,7 +105,7 @@ Assign repos to scopes. One cicd-expert agent per scope.
 
 ### Step 4: Dispatch cicd-expert sub-agents (judgment tier -- session model)
 
-Severity verdicts, security findings, and remediations are judgment work -- never delegated to a Sonnet
+Severity verdicts, security findings, and remediations are judgment work -- never delegated to any
 executor. For each scope, dispatch:
 
 ```
@@ -181,8 +184,9 @@ sections above.
 
 - Fan-out budget: judgment-tier dispatches (Step 4, `cicd-expert:cicd-expert`) stay within ≤10
   sub-agents/wave, ≤20 total per audit, scaling to natural breadth within it (sequential waves if
-  session-reset recurs). Step 2's recon-tier dispatches (`general-purpose` at Sonnet-5-xhigh) are EXEMPT
-  from this cap -- scale to repo count -- but still need a hard per-repo iteration cap; never open-ended.
+  session-reset recurs). Step 2's recon-tier dispatches (conductor-selected `general-purpose`
+  executors -- Sonnet or Opus) are EXEMPT from this cap -- scale to repo count -- but still need a hard
+  per-repo iteration cap; never open-ended, and >20 Opus executors in one turn needs sign-off.
 - Every sub-agent, recon-tier and judgment-tier, gets a BLACKBOARD line and writes its full report there
   before returning; the final message is a pointer plus a short summary.
 - Each sub-agent must read the reference files before producing findings -- recon-tier: read the actual

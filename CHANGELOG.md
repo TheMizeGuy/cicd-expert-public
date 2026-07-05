@@ -2,6 +2,10 @@
 
 All notable changes to `cicd-expert` are documented here.
 
+## 0.2.2 -- 2026-07-05
+
+- Executor model selection v2 (tracks the private source): recon-tier dispatches are conductor-selected -- Sonnet 5 at `xhigh` for mechanical, well-specified recon, or Opus 4.8 when a repo's recon needs deeper judgment. Judgment, severity verdicts, and synthesis are never delegated to any executor. Cap-exemption text updated (>20 Opus executors in one turn needs sign-off).
+
 ## [0.2.1] - 2026-07-05
 
 ### Changed

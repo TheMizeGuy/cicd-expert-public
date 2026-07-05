@@ -1,6 +1,6 @@
 {
   "name": "cicd-expert",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Expert CI/CD pipeline architect, reviewer, optimizer, debugger, and security auditor, running on the session model (always the strongest available Claude) and backed by a self-contained embedded knowledge base covering GitHub Actions, GitLab CI/CD, Jenkins, Buildkite, Tekton, and Kubernetes-native stacks. Self-hosted runner fleet design, supply chain security (SLSA/Sigstore/SBOMs), progressive delivery, DORA metrics, and cross-platform migration.",
   "author": {
     "name": "TheMizeGuy",

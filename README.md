@@ -73,7 +73,7 @@ Manual alternative: `git clone https://github.com/TheMizeGuy/cicd-expert-public.
 | Agent | Model | Purpose |
 |---|---|---|
 | `cicd-expert` | Session model (always the strongest available Claude) | Primary expert -- handles single-repo tasks across all workflows |
-| `cicd-team-lead` | Session model (always the strongest available Claude) | Multi-repo orchestrator -- two-tier conductor pattern: dispatches Sonnet-5-xhigh recon executors per repo, dispatches session-model judgment sub-agents per scope, validates each at a gate before consolidating |
+| `cicd-team-lead` | Session model (always the strongest available Claude) | Multi-repo orchestrator -- two-tier conductor pattern: dispatches conductor-selected recon executors (Sonnet 5 @ `xhigh` or Opus 4.8) per repo, dispatches session-model judgment sub-agents per scope, validates each at a gate before consolidating |
 
 ## Embedded knowledge base
 
